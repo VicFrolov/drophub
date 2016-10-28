@@ -24,12 +24,18 @@
     height: 60%;
     width: 100%;
     border: 1px solid blue;
+    cursor: pointer;
 }
 
-#drop {
+.drop {
     height: 30%;
     margin-bottom: 3%;
     flex: 1;
     width: 100%;
     border: 1px solid red;
+    cursor: pointer;
+}
+
+#filebox {
+    display: none;
 }

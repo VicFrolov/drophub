@@ -1,10 +1,10 @@
 $(function() {
 
-    $('#drop').click(function(){
+    $('.drop, #dropMain').click(function(){
         console.log('click');
         $('#fileBox').trigger('click');
     });
-    
+
     var addEventHandler = function(obj, evt, handler) {
         if(obj.addEventListener) {
             // W3C method

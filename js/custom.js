@@ -1,62 +1,29 @@
 $(function() {
 
-    $('.drop, #dropMain').click(function(){
-        console.log('click');
-        $('#fileBox').trigger('click');
-    });
-
-    var addEventHandler = function(obj, evt, handler) {
-        if(obj.addEventListener) {
-            // W3C method
-            obj.addEventListener(evt, handler, false);
-        } else if(obj.attachEvent) {
-            // IE method.
-            obj.attachEvent('on'+evt, handler);
-        } else {
-            // Old school method.
-            obj['on'+evt] = handler;
-        }
-    }
-
-    if (window.FileReader) {
-        var drop;
-        addEventHandler(window, 'load', function() {
-            var status = document.getElementById('status');
-            drop   = document.getElementById('drop');
-            var list   = document.getElementById('list');
-            
-            var cancel = function(e) {
-                if (e.preventDefault) { 
-                    e.preventDefault(); 
-                }
-                return false;
+    //credit for this function call goes to Rob Gravelle
+    $('#dropMain').on({
+        'dragover dragenter': function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        },
+        'drop': function(e) {
+            //console.log(e.originalEvent instanceof DragEvent);
+            var dataTransfer =  e.originalEvent.dataTransfer;
+            if (dataTransfer && dataTransfer.files.length) {
+                e.preventDefault();
+                e.stopPropagation();
+                $.each(dataTransfer.files, function(i, file) { 
+                    var reader = new FileReader();
+                    reader.onload = $.proxy(function(file, $fileList, event) {
+                        var img = file.type.match('image.*') 
+                            ? "<img src='" + event.target.result + "' /> " 
+                            : "";
+                        $fileList.prepend($("<div>").append(img));
+                    }, this, file, $("#dropMain"));
+                    reader.readAsDataURL(file);
+                });
             }
-          
-            // Tells the browser that we *can* drop on this target
-            addEventHandler(drop, 'dragover', cancel);
-            addEventHandler(drop, 'dragenter', cancel);
-
-            addEventHandler(drop, 'drop', function (e) {
-              e = e || window.event; // get window.event if e argument missing (in IE)
-              console.log("test")
-              if (e.preventDefault) { e.preventDefault(); } // stops the browser from redirecting off to the image.
-
-              var dt    = e.dataTransfer;
-              var files = dt.files;
-              for (var i=0; i<files.length; i++) {
-                var file = files[i];
-                var reader = new FileReader();
-                  
-                //attach event handlers here...
-                console.log(file)
-                reader.readAsDataURL(file);
-              }
-              return false;
-            });            
-        });
-
-    } else { 
-        document.getElementById('status').innerHTML = 'Your browser does not support the HTML5 FileReader.';
-    }
+        }
+    });
 
 });

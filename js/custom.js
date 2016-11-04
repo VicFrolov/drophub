@@ -18,10 +18,11 @@ $(function() {
         }
     }
 
-    if (window.FileReader) { 
+    if (window.FileReader) {
+        var drop;
         addEventHandler(window, 'load', function() {
             var status = document.getElementById('status');
-            var drop   = document.getElementById('drop');
+            drop   = document.getElementById('drop');
             var list   = document.getElementById('list');
             
             var cancel = function(e) {
@@ -34,6 +35,24 @@ $(function() {
             // Tells the browser that we *can* drop on this target
             addEventHandler(drop, 'dragover', cancel);
             addEventHandler(drop, 'dragenter', cancel);
+
+            addEventHandler(drop, 'drop', function (e) {
+              e = e || window.event; // get window.event if e argument missing (in IE)
+              console.log("test")
+              if (e.preventDefault) { e.preventDefault(); } // stops the browser from redirecting off to the image.
+
+              var dt    = e.dataTransfer;
+              var files = dt.files;
+              for (var i=0; i<files.length; i++) {
+                var file = files[i];
+                var reader = new FileReader();
+                  
+                //attach event handlers here...
+                console.log(file)
+                reader.readAsDataURL(file);
+              }
+              return false;
+            });            
         });
 
     } else { 

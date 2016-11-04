@@ -1,7 +1,9 @@
 $(function() {
-
     //credit for this function call goes to Rob Gravelle
     $('#dropMain, .drop').on({
+        'click': function(e) {
+            $('#fileBox').click()
+        },
         'dragover dragenter': function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -18,6 +20,7 @@ $(function() {
                         var img = file.type.match('image.*')
                             ? "<img src='" + event.target.result + "' /> " 
                             : "";
+                        $fileList.empty();
                         $fileList.append(img);
                     }, this, file, $(dropArea));
                     reader.readAsDataURL(file);
@@ -25,5 +28,4 @@ $(function() {
             }
         }
     });
-
 });

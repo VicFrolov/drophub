@@ -1,5 +1,5 @@
 #dropzone {
-    border: 1px solid orange;
+    border: 1px solid #000;
     padding: 10px 10px 10px 10px;
     height: 400px;
     width: 500px;
@@ -29,7 +29,6 @@
 
 #dropMain img {
     max-width: 100%;
-    max-height: 100%;
 }
 
 .drop {
@@ -44,21 +43,8 @@
 
 .drop img {
     max-width: 100%;
-    max-height: 100%;
 }
 
 #fileBox {
     display: none;
-}
-/**/
-
-#holder {
-    border: 5px dashed #CCC;
-    width: 400px;
-    height: 300px;
-    overflow: hidden;
-}
-
-#holder img {
-    
 }

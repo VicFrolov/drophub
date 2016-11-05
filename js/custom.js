@@ -1,8 +1,13 @@
 $(function() {
-    //credit for this function call goes to Rob Gravelle
+    
     $('#dropMain, .drop').on({
         'click': function(e) {
-            $('#fileBox').click()
+            $('#fileBox').click();
+
+            $("#fileBox").change(function() {
+                previewImage(this, e.target);
+            });
+
         },
         'dragover dragenter': function(e) {
             e.preventDefault();
@@ -18,14 +23,27 @@ $(function() {
                     var reader = new FileReader();
                     reader.onload = $.proxy(function(file, $fileList, event) {
                         var img = file.type.match('image.*')
-                            ? "<img src='" + event.target.result + "' /> " 
-                            : "";
-                        $fileList.empty();
-                        $fileList.append(img);
+                            ? $("<img>").attr('src', event.target.result) : "";
+                        $fileList.empty().append(img);
                     }, this, file, $(dropArea));
                     reader.readAsDataURL(file);
                 });
             }
         }
     });
+
+
+    var previewImage = function(input, destination) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                console.log(destination)
+                $(destination).empty().append($("<img>").attr('src', e.target.result));
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
 });

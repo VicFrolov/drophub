@@ -1,3 +1,9 @@
+#clock {
+    height: 300px;
+    width: 200px;
+    background-color: red;
+}
+
 #dropzone {
     border: 1px solid #000;
     border-radius: 15px;
@@ -29,9 +35,9 @@
     border: 2px dashed #ccc;
     cursor: pointer;
     overflow: hidden;
-    text-align: center;
     display: flex;
-    align-items: middle;
+    align-items: center;
+    justify-content: center;
 }
 
 #dropMain img {
@@ -46,6 +52,9 @@
     border: 2px dashed #ccc;
     cursor: pointer;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .drop img {

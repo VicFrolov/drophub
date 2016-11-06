@@ -1,13 +1,13 @@
 $(function() {
+
+    var reader;
+    var drop;
     
     $('#dropMain, .drop').on({
         'click': function(e) {
             $('#fileBox').click();
-
-            $("#fileBox").change(function() {
-                previewImage(this, e.target);
-            });
-
+            drop = this;
+            reader = new FileReader();
         },
         'dragover dragenter': function(e) {
             e.preventDefault();
@@ -20,7 +20,7 @@ $(function() {
                 e.preventDefault();
                 e.stopPropagation();
                 $.each(dataTransfer.files, function(i, file) { 
-                    var reader = new FileReader();
+                    reader = new FileReader();
                     reader.onload = $.proxy(function(file, $fileList, event) {
                         var img = file.type.match('image.*')
                             ? $("<img>").attr('src', event.target.result) : "";
@@ -33,17 +33,14 @@ $(function() {
     });
 
 
-    var previewImage = function(input, destination) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
+    $("#fileBox").change(function() {
+        if (this.files && this.files[0]) {
             reader.onload = function (e) {
-                console.log(destination)
-                $(destination).empty().append($("<img>").attr('src', e.target.result));
+                $(drop).empty().append($("<img>").attr("src", reader.result));
             }
-            reader.readAsDataURL(input.files[0]);
+            reader.readAsDataURL(this.files[0]);
         }
-    }
+    });
 
 
 });
